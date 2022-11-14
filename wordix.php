@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**1)Esta función inicializa el arreglo $coleccionPalabras
 *@Return $coleccionPalabras
@@ -30,7 +30,7 @@ Return $coleccionPartidas;
 Function seleccionarOpcion (){
     // booleano $bandera 
     $num = 0;
-    $vandera = true;
+    $bandera = true;
     While( $bandera==true){
     echo "1) Jugar al Wordix con una palabra elegida \n
 2) Jugar al Wordix con una palabra aleatoria \n
@@ -43,9 +43,9 @@ Function seleccionarOpcion (){
 Elija el número de la opción \n ";
         $num = trim(fgets(STDIN));
 if ($num ==  1 || $num ==  2 || $num ==  3 || $num ==  4 || $num ==  5 || $num ==  6 || $num ==  7 || $num ==  8){
-    $bandera = true;
+    $bandera = false;
 }
-};
+}
     Return $num ;
 }
 
@@ -61,7 +61,7 @@ function leerPalabra5Letras()
     $palabra = trim(fgets(STDIN));
     $palabra  = strtoupper($palabra);
 
-    while ((strlen($palabra) != 5) || !esPalabra($palabra)) {
+    while ((strlen($palabra) != 5)) {
         echo "Debe ingresar una palabra de 5 letras:";
         $palabra = strtoupper(trim(fgets(STDIN)));
     }
@@ -149,6 +149,7 @@ function indicePrimerPartida($coleccionPartidas,$nombreJugador){
     }
     return $retorno;
 }
+
 /**
  * 10)Solicita nombre y retorna el mismo a minuscula 
  * @param string $nombreJugador
@@ -158,7 +159,14 @@ function nombreAMinuscula($nombreJugador){
     //Strin $nombreAMinuscula
     return $nombreMinuscula=strtolower($nombreJugador);
 }
-
+/**
+ * 11) Mustra coleccion de partidas ordenadas
+ * @param array $coleccionPartidas
+ */
+function datosPartidaJugador($coleccionPartidas){
+    //
+    print_r($coleccionPartidas);
+}
 
 
 //Prgrama main 
@@ -197,4 +205,4 @@ $opcion=seleccionarOpcion();
 al valor de la misma toma diferentes opciones similar a un menu. 
 */
 
-;
+?>
