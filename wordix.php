@@ -4,7 +4,7 @@
 *@Return $coleccionPalabras
 */
 Function cargarColeccionPalabras(){
-$coleccionPalabras =[ “MUJER” , “QUESO” , “FUEGO” , “CASAS” , “RASGO” , “GATOS” , “HUEBO” , “TINTO” , “NAVES” , “VERDE” , “MELON” , “YUYOS” , “PIANO” ,  “PISOS” , “FRESA”];
+$coleccionPalabras =[ "MUJER" , "QUESO" , "FUEGO" , "CASAS" , "RASGO" , "GATOS" , "HUEBO" , "TINTO" , "NAVES" , "VERDE" , "MELON" , "YUYOS" , "PIANO" ,  "PISOS" , "FRESA"];
 Return $coleccionPalabras;
 }
 
@@ -12,8 +12,16 @@ Return $coleccionPalabras;
 * @Return $coleccionPartidas
 */
 Function cargarPartidas(){
-$coleccionPartidas [0] = [ “palabraWordix” => “QUESO” , “jugador” => “majo”, “intentos”=>0 , “puntaje”=> 0];
-//etc…10
+$coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
+$coleccionPartidas [1] = [ "palabraWordix" => "MUJER" , "jugador" => "sofi", "intentos"=>2 , "puntaje"=> 1];
+$coleccionPartidas [2] = [ "palabraWordix" => "CASAS" , "jugador" => "majo", "intentos"=>4 , "puntaje"=> 2];
+$coleccionPartidas [3] = [ "palabraWordix" => "PISOS" , "jugador" => "kata", "intentos"=>4 , "puntaje"=> 3];
+$coleccionPartidas [4] = [ "palabraWordix" => "RASGO" , "jugador" => "juan", "intentos"=>4 , "puntaje"=> 7];
+$coleccionPartidas [5] = [ "palabraWordix" => "GATOS" , "jugador" => "dali", "intentos"=>2 , "puntaje"=> 8];
+$coleccionPartidas [6] = [ "palabraWordix" => "VERDE" , "jugador" => "kata", "intentos"=>8 , "puntaje"=> 1];
+$coleccionPartidas [7] = [ "palabraWordix" => "MUJER" , "jugador" => "fern", "intentos"=>1 , "puntaje"=> 2];
+$coleccionPartidas [8] = [ "palabraWordix" => "NAVES" , "jugador" => "elsa", "intentos"=>0 , "puntaje"=> 0];
+$coleccionPartidas [9] = [ "palabraWordix" => "YUYOS" , "jugador" => "mati", "intentos"=>12 , "puntaje"=> 3];
 Return $coleccionPartidas;
 }
 /**3) Esta función muestra en pantalla las opciones del menú 
@@ -119,5 +127,74 @@ function agregarPalabra ($coleccionPalabras, $palabraAgregada){
     }
     return $coleccionPalabras; 
 }
+/**
+ * 8)Ingresa una coleccion de partidas y un nombre de un jugador 
+ * @param array $coleccionPartidas
+ * @param string $nombreJugador
+ * @return int 
+ */
+function indicePrimerPartida($coleccionPartidas,$nombreJugador){
+    //int $i,$param
+    $bandera=true;
+    $i=0;
+    $param=count($coleccionPartidas);
+    $retorno=-1;
+    while ($i<=$param-1&&$bandera=true){
+        if($coleccionPartidas[$i]==$nombreJugador&&$coleccionPartidas[$i]["puntaje"]>0){
+            $retorno=$i;
+            $bandera=false;
+        }
+        
+        $i=$i+1;
+    }
+    return $retorno;
+}
+/**
+ * 10)Solicita nombre y retorna el mismo a minuscula 
+ * @param string $nombreJugador
+ * @return string 
+ */
+function nombreAMinuscula($nombreJugador){
+    //Strin $nombreAMinuscula
+    return $nombreMinuscula=strtolower($nombreJugador);
+}
+
+
+
+//Prgrama main 
+//a)
+$coleccionPalabras=cargarColeccionPalabras();
+//b)
+$coleccionPartidas=cargarPartidas();
+//c)
+$opcion=seleccionarOpcion();
+//d)
+while($opcion!=8){
+if($opcion==1){
+    $palabra=leerPalabra5Letras();
+}elseif($opcion==2){
+    $palabra=$coleccionPalabras[array_rand($coleccionPalabras)];
+}elseif($opcion==3){
+    mostrarPartida($coleccionPartidas,$numeroPartida);
+}elseif($opcion==4){
+    $aux=indicePrimerPartida($coleccionPartidas,$nombreJugador);
+    echo "Primer partida ganadora: ".$coleccionPartidas[$aux];
+}elseif($opcion==5){
+
+}elseif($opcion==6){
+    datosPartidaJugador($coleccionPartidas);
+}elseif($opcion==7){
+    $palabraAgreg=leerPalabra5Letras();
+    agregarPalabra($coleccionPalabras,$palabraAgreg);
+}else{
+    echo "Numero no valido";
+}
+
+$opcion=seleccionarOpcion();
+}
+
+/*e) La intruccion switch corresponde a la estructura de control alternativa. Funciona tomando en cuenta una variable y en base 
+al valor de la misma toma diferentes opciones similar a un menu. 
+*/
 
 ;

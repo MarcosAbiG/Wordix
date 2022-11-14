@@ -1,21 +1,29 @@
 <?php
-    /**
- * Ingresa por parametros la coleccion de palabras jugables y una palabra nueva para que se pueda jugar
- * @param array $coleccionPalabras
- * @param string $palabraAgregada
- * @return array
- */
+
+
+
 /**
- * Ingresa una coleccion de partidas y un nombre de un jugador 
+ * 9)Ingresa una coleccion de partidas y un nombre de un jugador 
  * @param array $coleccionPartidas
  * @param string $nombreJugador
- * @return int 
+ * @return  
  */
-function g(){
-    //int $i
-    $cont=true;
-    while ($cont){
-        
+function resumenJugador($coleccionPartidas,$nombreJugador){
+
+    $coleccionPartidas[$nombreJugador];
+}
+
+/**
+ * 11) Mustra coleccion de partidas ordenadas
+ * @param array $coleccionPartidas
+ */
+function datosPartidaJugador($coleccionPartidas){
+    //
+    uasort($coleccionPartidas,'cmp'){
+        foreach($coleccionPartidas as $jugador => $nombreJugador){
+            echo $nombreJugador." - ".$palabra;
+        }
     }
 }
+
 
