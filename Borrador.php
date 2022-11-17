@@ -38,4 +38,6 @@ function datosPartidaJugador($coleccionPartidas){
 $coleccionPartidas=cargarPartidas();
 datosPartidaJugador($coleccionPartidas);
 
+
+
 ?>
