@@ -44,21 +44,38 @@ function cargarColeccionPalabras()
 
 //Proceso:
 
-$partida = jugarWordix("MELON", strtolower("MaJo"));
+//$partida = jugarWordix("MELON", strtolower("MaJo"));
+
 //print_r($partida);
 //imprimirResultado($partida);
 
-
-
-/*
+$coleccionPalabras=cargarColeccionPalabras();
+$coleccionPartidas=cargarPartidas();
 do {
-    $opcion = ...;
+    echo"\n*****************************************************************\n";
+    echo  "1) Jugar al Wordix con una palabra elegida \n";
+    echo  "2) Jugar al Wordix con una palabra aleatoria \n";
+    echo  "3) Mostrar una partida \n";
+    echo  "4) Mostrar la primer partida ganadora \n";
+    echo  "5) Mostrar resumen de Jugador \n";
+    echo  "6) Mostrar listado de partidas ordenadas por jugador y por palabra \n";
+    echo  "7) Agregar una palabra de 5 letras a Wordix  \n";
+    echo  "8) Salir \n" ;
+    echo"*****************************************************************\n";    
+    echo "Elija el número de la opción: ";
+    $opcion= trim(fgets(STDIN));
 
     
     switch ($opcion) {
         case 1: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 1
+            echo "Ingrese nombre de usuario:\n";
+            $nombreUsusario=trim(fgets(STDIN));
+            $numeroPalabra=solicitarNumeroEntre(1,20);
+            $palabraWordix=$coleccionPalabras[$numeroPalabra];
 
+            
+            $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
+            array_push($coleccionPartidas,$partida);
             break;
         case 2: 
             //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
@@ -71,13 +88,22 @@ do {
         
             //...
     }
-} while ($opcion != X);
-*/
+} while ($opcion != 8);
+
 //----------------------------------------------------------------------------------------------------------------------
+/**Esta funcoin verifica que el usuario no juegue 2 veces con la misma palabra
+ * @param 
+ * 
+ */
+
+function verificarPalabraQueNoRepita($palabraWordix){
+}
+
+
 /**2)Esta función inicializa el arreglo $coleccionPartidas
 * @Return $coleccionPartidas
 */
-Function cargarPartidas(){
+function cargarPartidas(){
     $coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
     $coleccionPartidas [1] = [ "palabraWordix" => "MUJER" , "jugador" => "sofi", "intentos"=>2 , "puntaje"=> 1];
     $coleccionPartidas [2] = [ "palabraWordix" => "CASAS" , "jugador" => "majo", "intentos"=>4 , "puntaje"=> 2];
@@ -124,7 +150,7 @@ Function seleccionarOpcion (){
  *se volvera a pedir hasta que se cumpla, retorna la palabra
  * @return string
  */
-function leerPalabra5Letras()
+/*function leerPalabra5Letras()
 {
     //string $palabra
     echo "Ingrese una palabra de 5 letras: ";
@@ -137,6 +163,7 @@ function leerPalabra5Letras()
     }
     return $palabra;
 }
+*/
 /**
  *  5)Permite ingresar un numero entre un rango de valores ya sea para jugar o mostrar un partida y retorna el numero si es 
  * valido entre ese rango
@@ -144,7 +171,7 @@ function leerPalabra5Letras()
  * @param int $max
  * @return int
  */
-function solicitarNumeroEntre($min, $max)
+/*function solicitarNumeroEntre($min, $max)
 {
     //int $numero
     echo "Ingrese el ";
@@ -155,3 +182,5 @@ function solicitarNumeroEntre($min, $max)
     }
     return $numero;
 }
+*/
+//REVISRAR WORDIX PHP solicitarNumeroEntre

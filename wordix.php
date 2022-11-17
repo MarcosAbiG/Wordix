@@ -27,11 +27,16 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 /**************************************/
 
 /**
- *  ****COMPLETAR*****
+ * Permite ingresar un numero entre un rango de valores ya sea para jugar o mostrar un partida y retorna el numero si es 
+ * valido entre ese rango
+ * @param int $min 
+ * @param int $max
+ * @return $numero
  */
 function solicitarNumeroEntre($min, $max)
 {
     //int $numero
+    echo "ingrese un numero del 0 al 19 para elegir palabra:\n";
     $numero = trim(fgets(STDIN));
 	
 	if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
@@ -120,8 +125,8 @@ function escribirSegunEstado($texto, $estado)
     }
 }
 
-/**
- * ****COMPLETAR*****
+/** Recibe por parametro el nombre del usuario e imprime una mensaje de bienvenida
+ * @param String $usuario 
  */
 function escribirMensajeBienvenida($usuario)
 {
@@ -134,7 +139,8 @@ function escribirMensajeBienvenida($usuario)
 
 
 /**
- * ****COMPLETAR*****
+ * Este arreglo valida si la cadena de caracteres no posee numeros
+ * @param String $cadena
  */
 function esPalabra($cadena)
 {
@@ -150,7 +156,9 @@ function esPalabra($cadena)
 }
 
 /**
- *  ****COMPLETAR*****
+ *  Esta funcion pide al usuario una palabra de 5 letras, convierte la palabra a mayuscula, verifica que 
+ * sea de 5 letras y no posea numeros
+ * @return $palabra
  */
 function leerPalabra5Letras()
 {
