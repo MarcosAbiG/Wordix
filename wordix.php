@@ -1,58 +1,156 @@
 <?php
 
-/**1)Esta función inicializa el arreglo $coleccionPalabras
-*@Return $coleccionPalabras
+/*
+La librería JugarWordix posee la definición de constantes y funciones necesarias
+para jugar al Wordix.
+Puede ser utilizada por cualquier programador para incluir en sus programas.
 */
-Function cargarColeccionPalabras(){
-$coleccionPalabras =[ "MUJER" , "QUESO" , "FUEGO" , "CASAS" , "RASGO" , "GATOS" , "HUEBO" , "TINTO" , "NAVES" , "VERDE" , "MELON" , "YUYOS" , "PIANO" ,  "PISOS" , "FRESA"];
-Return $coleccionPalabras;
-}
 
-/**2)Esta función inicializa el arreglo $coleccionPartidas
-* @Return $coleccionPartidas
+/**************************************/
+/***** DEFINICION DE CONSTANTES *******/
+/**************************************/
+const CANT_INTENTOS = 6;
+
+/*
+    disponible: letra que aún no fue utilizada para adivinar la palabra
+    encontrada: letra descubierta en el lugar que corresponde
+    pertenece: letra descubierta, pero corresponde a otro lugar
+    descartada: letra descartada, no pertence a la palabra
 */
-Function cargarPartidas(){
-$coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
-$coleccionPartidas [1] = [ "palabraWordix" => "MUJER" , "jugador" => "sofi", "intentos"=>2 , "puntaje"=> 1];
-$coleccionPartidas [2] = [ "palabraWordix" => "CASAS" , "jugador" => "majo", "intentos"=>4 , "puntaje"=> 2];
-$coleccionPartidas [3] = [ "palabraWordix" => "PISOS" , "jugador" => "kata", "intentos"=>4 , "puntaje"=> 3];
-$coleccionPartidas [4] = [ "palabraWordix" => "RASGO" , "jugador" => "juan", "intentos"=>4 , "puntaje"=> 7];
-$coleccionPartidas [5] = [ "palabraWordix" => "GATOS" , "jugador" => "dali", "intentos"=>2 , "puntaje"=> 8];
-$coleccionPartidas [6] = [ "palabraWordix" => "VERDE" , "jugador" => "kata", "intentos"=>8 , "puntaje"=> 1];
-$coleccionPartidas [7] = [ "palabraWordix" => "MUJER" , "jugador" => "fern", "intentos"=>1 , "puntaje"=> 2];
-$coleccionPartidas [8] = [ "palabraWordix" => "NAVES" , "jugador" => "elsa", "intentos"=>0 , "puntaje"=> 0];
-$coleccionPartidas [9] = [ "palabraWordix" => "YUYOS" , "jugador" => "mati", "intentos"=>12 , "puntaje"=> 3];
-Return $coleccionPartidas;
-}
-/**3) Esta función muestra en pantalla las opciones del menú 
-*@return $num int
-*/
-Function seleccionarOpcion (){
-    // booleano $bandera 
-    $num = 0;
-    $bandera = true;
-    While( $bandera==true){
-    echo "1) Jugar al Wordix con una palabra elegida \n
-2) Jugar al Wordix con una palabra aleatoria \n
-3) Mostrar una partida \n
-4) Mostrar la primer partida ganadora \n
-5) Mostrar resumen de Jugador \n
-6) Mostrar listado de partidas ordenadas por jugador y por palabra   \n
-7) Agregar una palabra de 5 letras a Wordix  \n
-8) Salir \n 
-Elija el número de la opción \n ";
-        $num = trim(fgets(STDIN));
-if ($num ==  1 || $num ==  2 || $num ==  3 || $num ==  4 || $num ==  5 || $num ==  6 || $num ==  7 || $num ==  8){
-    $bandera = false;
-}
-}
-    Return $num ;
+const ESTADO_LETRA_DISPONIBLE = "disponible";
+const ESTADO_LETRA_ENCONTRADA = "encontrada";
+const ESTADO_LETRA_DESCARTADA = "descartada";
+const ESTADO_LETRA_PERTENECE = "pertenece";
+
+/**************************************/
+/***** DEFINICION DE FUNCIONES ********/
+/**************************************/
+
+/**
+ *  ****COMPLETAR*****
+ */
+function solicitarNumeroEntre($min, $max)
+{
+    //int $numero
+    $numero = trim(fgets(STDIN));
+	
+	if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
+        $numero  = $numero * 1; //con esta operación convierto el string en número.
+    }
+	
+    while (!is_numeric($numero) ||( is_int($numero) && !($numero >= $min && $numero <= $max))) {
+        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
+        $numero = trim(fgets(STDIN));
+		if (is_numeric($numero)) {
+			$numero  = $numero * 1; 
+		}
+    }
+    
+    return $numero;
 }
 
 /**
- *4)  Funcion que permite ingresar una palabra de 5 letras y retorna la palabra, en caso de que se ingrese de que no sean 5 letras se volvera a pedir
- * hasta que se cumpla, retorna la palabra
- * @return string
+ * Escrbir un texto en color ROJO
+ * @param string $texto)
+ */
+function escribirRojo($texto)
+{
+    echo "\e[1;37;41m $texto \e[0m";
+}
+
+/**
+ * Escrbir un texto en color VERDE
+ * @param string $texto)
+ */
+function escribirVerde($texto)
+{
+    echo "\e[1;37;42m $texto \e[0m";
+}
+
+/**
+ * Escrbir un texto en color AMARILLO
+ * @param string $texto)
+ */
+function escribirAmarillo($texto)
+{
+    echo "\e[1;37;43m $texto \e[0m";
+}
+
+/**
+ * Escrbir un texto en color GRIS
+ * @param string $texto)
+ */
+function escribirGris($texto)
+{
+    echo "\e[1;34;47m $texto \e[0m";
+}
+
+/**
+ * Escrbir un texto pantalla.
+ * @param string $texto)
+ */
+function escribirNormal($texto)
+{
+    echo "\e[0m $texto \e[0m";
+}
+
+/**
+ * Escribe un texto en pantalla teniendo en cuenta el estado.
+ * @param string $texto
+ * @param string $estado
+ */
+function escribirSegunEstado($texto, $estado)
+{
+    switch ($estado) {
+        case ESTADO_LETRA_DISPONIBLE:
+            escribirNormal($texto);
+            break;
+        case ESTADO_LETRA_ENCONTRADA:
+            escribirVerde($texto);
+            break;
+        case ESTADO_LETRA_PERTENECE:
+            escribirAmarillo($texto);
+            break;
+        case ESTADO_LETRA_DESCARTADA:
+            escribirRojo($texto);
+            break;
+        default:
+            echo " $texto ";
+            break;
+    }
+}
+
+/**
+ * ****COMPLETAR*****
+ */
+function escribirMensajeBienvenida($usuario)
+{
+    echo "***************************************************\n";
+    echo "** Hola ";
+    escribirAmarillo($usuario);
+    echo " Juguemos una PARTIDA de WORDIX! **\n";
+    echo "***************************************************\n";
+}
+
+
+/**
+ * ****COMPLETAR*****
+ */
+function esPalabra($cadena)
+{
+    //int $cantCaracteres, $i, boolean $esLetra
+    $cantCaracteres = strlen($cadena);
+    $esLetra = true;
+    $i = 0;
+    while ($esLetra && $i < $cantCaracteres) {
+        $esLetra =  ctype_alpha($cadena[$i]);
+        $i++;
+    }
+    return $esLetra;
+}
+
+/**
+ *  ****COMPLETAR*****
  */
 function leerPalabra5Letras()
 {
@@ -61,148 +159,231 @@ function leerPalabra5Letras()
     $palabra = trim(fgets(STDIN));
     $palabra  = strtoupper($palabra);
 
-    while ((strlen($palabra) != 5)) {
+    while ((strlen($palabra) != 5) || !esPalabra($palabra)) {
         echo "Debe ingresar una palabra de 5 letras:";
         $palabra = strtoupper(trim(fgets(STDIN)));
     }
     return $palabra;
 }
+
+
 /**
- *  5)Permite ingresar un numero entre un rango de valores ya sea para jugar o mostrar un partida y retorna el numero si es valido entre ese rango
- * @param int $min
- * @param int $max
- * @return int
+ * Inicia una estructura de datos Teclado. La estructura es de tipo: ¿Indexado, asociativo o Multidimensional?
+ *@return array
  */
-function solicitarNumeroEntre($min, $max)
+function iniciarTeclado()
 {
-    //int $numero
-    $numero = trim(fgets(STDIN));
-    while (!is_int($numero) && !($numero >= $min && $numero <= $max)) {
-        echo "Debe ingresar un número entre " . $min . " y " . $max . ": ";
-        $numero = trim(fgets(STDIN));
-    }
-    return $numero;
-}
-/*
- * 6)Permite ingresar un numero de partida y si el numero es valido muestra el resumen de esa partida jugada
- * @param array $coleccionPartidas
- */
-function mostrarPartida ($coleccionPartidas, $numeroPartida) 
-{
-    echo"** \n";
-    echo"Partida WORDIX " .$numeroPartida. ": palabra ".$coleccionPartidas[$numeroPartida]["palabraWordix"]. "\n";
-    echo"Jugador: ".$coleccionPartidas[$numeroPartida]["jugador"];
-    echo"\nPuntaje: " .$coleccionPartidas [$numeroPartida]["puntaje"];
-    if ($coleccionPartidas[$numeroPartida]["intentos"] > 0){
-        echo"\nIntento: Adivinó la palabra en " .$coleccionPartidas[$numeroPartida]["intentos"] ." intentos";
-    } else {
-        echo "\nIntento: No se adivinó la palabra";
-    }
-    echo"\n**";
+    //array $teclado (arreglo asociativo, cuyas claves son las letras del alfabeto)
+    $teclado = [
+        "A" => ESTADO_LETRA_DISPONIBLE, "B" => ESTADO_LETRA_DISPONIBLE, "C" => ESTADO_LETRA_DISPONIBLE, "D" => ESTADO_LETRA_DISPONIBLE, "E" => ESTADO_LETRA_DISPONIBLE,
+        "F" => ESTADO_LETRA_DISPONIBLE, "G" => ESTADO_LETRA_DISPONIBLE, "H" => ESTADO_LETRA_DISPONIBLE, "I" => ESTADO_LETRA_DISPONIBLE, "J" => ESTADO_LETRA_DISPONIBLE,
+        "K" => ESTADO_LETRA_DISPONIBLE, "L" => ESTADO_LETRA_DISPONIBLE, "M" => ESTADO_LETRA_DISPONIBLE, "N" => ESTADO_LETRA_DISPONIBLE, 
+        "O" => ESTADO_LETRA_DISPONIBLE, "P" => ESTADO_LETRA_DISPONIBLE, "Q" => ESTADO_LETRA_DISPONIBLE, "R" => ESTADO_LETRA_DISPONIBLE, "S" => ESTADO_LETRA_DISPONIBLE,
+        "T" => ESTADO_LETRA_DISPONIBLE, "U" => ESTADO_LETRA_DISPONIBLE, "V" => ESTADO_LETRA_DISPONIBLE, "W" => ESTADO_LETRA_DISPONIBLE, "X" => ESTADO_LETRA_DISPONIBLE,
+        "Y" => ESTADO_LETRA_DISPONIBLE, "Z" => ESTADO_LETRA_DISPONIBLE
+    ];
+    return $teclado;
 }
 
 /**
- * 7)Ingresa por parametros la coleccion de palabras jugables y una palabra nueva para que se pueda jugar
- * @param array $coleccionPalabras
- * @param string $palabraAgregada
- * @return array
+ * Escribe en pantalla el estado del teclado. Acomoda las letras en el orden del teclado QWERTY
+ * @param array $teclado
  */
-function agregarPalabra ($coleccionPalabras, $palabraAgregada){
-    //int $i, $rango, $numeroPalabra
-    $i = 0;
-    $rango = count($coleccionPalabras);
-    $esAgregable = true;
-    while($coleccionPalabras[$i] != $palabraAgregada && $i < $rango - 1){
-        $i = $i + 1;
-    }
-    if($coleccionPalabras[$i] == $palabraAgregada){
-        $esAgregable = false;
-    } 
-    if($esAgregable == true){
-    $numeroPalabra = count($coleccionPalabras); //numero de la nueva palabra
-    $coleccionPalabras [$numeroPalabra] = $palabraAgregada;
-    echo "\nLa palabra " .$coleccionPalabras[$numeroPalabra]. " fue agregada\n";
-    } else {
-        echo"La palabra ya existe\n";
-    }
-    return $coleccionPalabras; 
-}
-/**
- * 8)Ingresa una coleccion de partidas y un nombre de un jugador 
- * @param array $coleccionPartidas
- * @param string $nombreJugador
- * @return int 
- */
-function indicePrimerPartida($coleccionPartidas,$nombreJugador){
-    //int $i,$param
-    $bandera=true;
-    $i=0;
-    $param=count($coleccionPartidas);
-    $retorno=-1;
-    while ($i<=$param-1&&$bandera=true){
-        if($coleccionPartidas[$i]==$nombreJugador&&$coleccionPartidas[$i]["puntaje"]>0){
-            $retorno=$i;
-            $bandera=false;
+function escribirTeclado($teclado)
+{
+    //array $ordenTeclado (arreglo indexado con el orden en que se debe escribir el teclado en pantalla)
+    //string $letra, $estado
+    $ordenTeclado = [
+        "salto",
+        "Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "salto",
+        "A", "S", "D", "F", "G", "H", "J", "K", "L", "salto",
+        "Z", "X", "C", "V", "B", "N", "M", "salto"
+    ];
+
+    foreach ($ordenTeclado as $letra) {
+        switch ($letra) {
+            case 'salto':
+                echo "\n";
+                break;
+            default:
+                $estado = $teclado[$letra];
+                escribirSegunEstado($letra, $estado);
+                break;
         }
-        
-        $i=$i+1;
     }
-    return $retorno;
+    echo "\n";
+};
+
+
+/**
+ * Escribe en pantalla los intentos de Wordix para adivinar la palabra
+ * @param array $estruturaIntentosWordix
+ */
+function imprimirIntentosWordix($estructuraIntentosWordix)
+{
+    $cantIntentosRealizados = count($estructuraIntentosWordix);
+    //$cantIntentosFaltantes = CANT_INTENTOS - $cantIntentosRealizados;
+
+    for ($i = 0; $i < $cantIntentosRealizados; $i++) {
+        $estructuraIntento = $estructuraIntentosWordix[$i];
+        echo "\n" . ($i + 1) . ")  ";
+        foreach ($estructuraIntento as $intentoLetra) {
+            escribirSegunEstado($intentoLetra["letra"], $intentoLetra["estado"]);
+        }
+        echo "\n";
+    }
+
+    for ($i = $cantIntentosRealizados; $i < CANT_INTENTOS; $i++) {
+        echo "\n" . ($i + 1) . ")  ";
+        for ($j = 0; $j < 5; $j++) {
+            escribirGris(" ");
+        }
+        echo "\n";
+    }
+    //echo "\n" . "Le quedan " . $cantIntentosFaltantes . " Intentos para adivinar la palabra!";
 }
 
 /**
- * 10)Solicita nombre y retorna el mismo a minuscula 
- * @param string $nombreJugador
- * @return string 
+ * Dada la palabra wordix a adivinar, la estructura para almacenar la información del intento 
+ * y la palabra que intenta adivinar la palabra wordix.
+ * devuelve la estructura de intentos Wordix modificada con el intento.
+ * @param string $palabraWordix
+ * @param array $estruturaIntentosWordix
+ * @param string $palabraIntento
+ * @return array estructura wordix modificada
  */
-function nombreAMinuscula($nombreJugador){
-    //Strin $nombreAMinuscula
-    return $nombreMinuscula=strtolower($nombreJugador);
+function analizarPalabraIntento($palabraWordix, $estruturaIntentosWordix, $palabraIntento)
+{
+    $cantCaracteres = strlen($palabraIntento);
+    $estructuraPalabraIntento = []; /*almacena cada letra de la palabra intento con su estado */
+    for ($i = 0; $i < $cantCaracteres; $i++) {
+        $letraIntento = $palabraIntento[$i];
+        $posicion = strpos($palabraWordix, $letraIntento);
+        if ($posicion === false) {
+            $estado = ESTADO_LETRA_DESCARTADA;
+        } else {
+            if ($letraIntento == $palabraWordix[$i]) {
+                $estado = ESTADO_LETRA_ENCONTRADA;
+            } else {
+                $estado = ESTADO_LETRA_PERTENECE;
+            }
+        }
+        array_push($estructuraPalabraIntento, ["letra" => $letraIntento, "estado" => $estado]);
+    }
+
+    array_push($estruturaIntentosWordix, $estructuraPalabraIntento);
+    return $estruturaIntentosWordix;
 }
+
 /**
- * 11) Mustra coleccion de partidas ordenadas
- * @param array $coleccionPartidas
+ * Actualiza el estado de las letras del teclado. 
+ * Teniendo en cuenta que una letra sólo puede pasar:
+ * de ESTADO_LETRA_DISPONIBLE a ESTADO_LETRA_ENCONTRADA, 
+ * de ESTADO_LETRA_DISPONIBLE a ESTADO_LETRA_DESCARTADA, 
+ * de ESTADO_LETRA_DISPONIBLE a ESTADO_LETRA_PERTENECE
+ * de ESTADO_LETRA_PERTENECE a ESTADO_LETRA_ENCONTRADA
+ * @param array $teclado
+ * @param array $estructuraPalabraIntento
+ * @return array el teclado modificado con los cambios de estados.
  */
-function datosPartidaJugador($coleccionPartidas){
-    //
-    print_r($coleccionPartidas);
+function actualizarTeclado($teclado, $estructuraPalabraIntento)
+{
+    foreach ($estructuraPalabraIntento as $letraIntento) {
+        $letra = $letraIntento["letra"];
+        $estado = $letraIntento["estado"];
+        switch ($teclado[$letra]) {
+            case ESTADO_LETRA_DISPONIBLE:
+                $teclado[$letra] = $estado;
+                break;
+            case ESTADO_LETRA_PERTENECE:
+                if ($estado == ESTADO_LETRA_ENCONTRADA) {
+                    $teclado[$letra] = $estado;
+                }
+                break;
+        }
+    }
+    return $teclado;
 }
 
+/**
+ * Determina si se ganó una palabra intento posee todas sus letras "Encontradas".
+ * @param array $estructuraPalabraIntento
+ * @return bool
+ */
+function esIntentoGanado($estructuraPalabraIntento)
+{
+    $cantLetras = count($estructuraPalabraIntento);
+    $i = 0;
 
-//Prgrama main 
-//a)
-$coleccionPalabras=cargarColeccionPalabras();
-//b)
-$coleccionPartidas=cargarPartidas();
-//c)
-$opcion=seleccionarOpcion();
-//d)
-while($opcion!=8){
-if($opcion==1){
-    $palabra=leerPalabra5Letras();
-}elseif($opcion==2){
-    $palabra=$coleccionPalabras[array_rand($coleccionPalabras)];
-}elseif($opcion==3){
-    mostrarPartida($coleccionPartidas,$numeroPartida);
-}elseif($opcion==4){
-    $aux=indicePrimerPartida($coleccionPartidas,$nombreJugador);
-    echo "Primer partida ganadora: ".$coleccionPartidas[$aux];
-}elseif($opcion==5){
+    while ($i < $cantLetras && $estructuraPalabraIntento[$i]["estado"] == ESTADO_LETRA_ENCONTRADA) {
+        $i++;
+    }
 
-}elseif($opcion==6){
-    datosPartidaJugador($coleccionPartidas);
-}elseif($opcion==7){
-    $palabraAgreg=leerPalabra5Letras();
-    agregarPalabra($coleccionPalabras,$palabraAgreg);
-}else{
-    echo "Numero no valido";
+    if ($i == $cantLetras) {
+        $ganado = true;
+    } else {
+        $ganado = false;
+    }
+
+    return $ganado;
 }
 
-$opcion=seleccionarOpcion();
+/**
+ * ****COMPLETAR***** documentación de la intefaz
+ */
+function obtenerPuntajeWordix()  /* ****COMPLETAR***** parámetros formales necesarios */
+{
+
+    /* ****COMPLETAR***** cuerpo de la función*/
+    return 0;
 }
 
-/*e) La intruccion switch corresponde a la estructura de control alternativa. Funciona tomando en cuenta una variable y en base 
-al valor de la misma toma diferentes opciones similar a un menu. 
-*/
+/**
+ * Dada una palabra para adivinar, juega una partida de wordix intentando que el usuario adivine la palabra.
+ * @param string $palabraWordix
+ * @param string $nombreUsuario
+ * @return array estructura con el resumen de la partida, para poder ser utilizada en estadísticas.
+ */
+function jugarWordix($palabraWordix, $nombreUsuario)
+{
+    /*Inicialización*/
+    $arregloDeIntentosWordix = [];
+    $teclado = iniciarTeclado();
+    escribirMensajeBienvenida($nombreUsuario);
+    $nroIntento = 1;
+    do {
 
-?>
+        echo "Comenzar con el Intento " . $nroIntento . ":\n";
+        $palabraIntento = leerPalabra5Letras();
+        $indiceIntento = $nroIntento - 1;
+        $arregloDeIntentosWordix = analizarPalabraIntento($palabraWordix, $arregloDeIntentosWordix, $palabraIntento);
+        $teclado = actualizarTeclado($teclado, $arregloDeIntentosWordix[$indiceIntento]);
+        /*Mostrar los resultados del análisis: */
+        imprimirIntentosWordix($arregloDeIntentosWordix);
+        escribirTeclado($teclado);
+        /*Determinar si la plabra intento ganó e incrementar la cantidad de intentos */
+
+        $ganoElIntento = esIntentoGanado($arregloDeIntentosWordix[$indiceIntento]);
+        $nroIntento++;
+    } while ($nroIntento <= CANT_INTENTOS && !$ganoElIntento);
+
+
+    if ($ganoElIntento) {
+        $nroIntento--;
+        $puntaje = obtenerPuntajeWordix();
+        echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!";
+    } else {
+        $nroIntento = 0; //reset intento
+        $puntaje = 0;
+        echo "Seguí Jugando Wordix, la próxima será! ";
+    }
+
+    $partida = [
+        "palabraWordix" => $palabraWordix,
+        "jugador" => $nombreUsuario,
+        "intentos" => $nroIntento,
+        "puntaje" => $puntaje
+    ];
+
+    return $partida;
+}
