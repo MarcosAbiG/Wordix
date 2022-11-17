@@ -387,3 +387,4 @@ function jugarWordix($palabraWordix, $nombreUsuario)
 
     return $partida;
 }
+?>

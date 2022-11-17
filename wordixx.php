@@ -49,15 +49,17 @@ Function seleccionarOpcion (){
     $num = 0;
     $bandera = true;
     While( $bandera==true){
-    echo "1) Jugar al Wordix con una palabra elegida \n
-2) Jugar al Wordix con una palabra aleatoria \n
-3) Mostrar una partida \n
-4) Mostrar la primer partida ganadora \n
-5) Mostrar resumen de Jugador \n
-6) Mostrar listado de partidas ordenadas por jugador y por palabra   \n
-7) Agregar una palabra de 5 letras a Wordix  \n
-8) Salir \n 
-Elija el número de la opción \n ";
+        echo"*****************************************************************\n";
+        echo "1) Jugar al Wordix con una palabra elegida \n";
+        echo  "2) Jugar al Wordix con una palabra aleatoria \n";
+        echo    "3) Mostrar una partida \n";
+        echo    "4) Mostrar la primer partida ganadora \n";
+        echo    "5) Mostrar resumen de Jugador \n";
+        echo    "6) Mostrar listado de partidas ordenadas por jugador y por palabra \n";
+        echo    "7) Agregar una palabra de 5 letras a Wordix  \n";
+        echo    "8) Salir \n" ;
+        echo"*****************************************************************\n";    
+        echo "Elija el número de la opción: ";
         $num = trim(fgets(STDIN));
 if ($num ==  1 || $num ==  2 || $num ==  3 || $num ==  4 || $num ==  5 || $num ==  6 || $num ==  7 || $num ==  8){
     $bandera = false;
@@ -182,9 +184,7 @@ function nombreAMinuscula($nombreJugador){
  */
 function datosPartidaJugador($coleccionPartidas){
     //
-    uasort($coleccionPartidas,"comparar"){
-        
-    }
+    
     print_r($coleccionPartidas);
 }
 
