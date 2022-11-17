@@ -4,7 +4,8 @@
 *@Return $coleccionPalabras
 */
 Function cargarColeccionPalabras(){
-$coleccionPalabras =[ "MUJER" , "QUESO" , "FUEGO" , "CASAS" , "RASGO" , "GATOS" , "HUEBO" , "TINTO" , "NAVES" , "VERDE" , "MELON" , "YUYOS" , "PIANO" ,  "PISOS" , "FRESA"];
+$coleccionPalabras =[ "MUJER" , "QUESO" , "FUEGO" , "CASAS" , "RASGO" , "GATOS" , 
+"HUEBO" , "TINTO" , "NAVES" , "VERDE" , "MELON" , "YUYOS" , "PIANO" ,  "PISOS" , "FRESA"];
 Return $coleccionPalabras;
 }
 
