@@ -37,7 +37,19 @@ function datosPartidaJugador($coleccionPartidas){
 }
 $coleccionPartidas=cargarPartidas();
 datosPartidaJugador($coleccionPartidas);
-
+-------------------------------------------------
+    echo"*****************************************************************\n";
+    echo
+    "   1) Jugar al Wordix con una palabra elegida \n
+        2) Jugar al Wordix con una palabra aleatoria \n
+        3) Mostrar una partida \n
+        4) Mostrar la primer partida ganadora \n
+        5) Mostrar resumen de Jugador \n
+        6) Mostrar listado de partidas ordenadas por jugador y por palabra \n
+        7) Agregar una palabra de 5 letras a Wordix  \n
+        8) Salir \n" ;
+    echo"*****************************************************************\n";    
+    echo "Elija el número de la opción: ";
 
 
 ?>
