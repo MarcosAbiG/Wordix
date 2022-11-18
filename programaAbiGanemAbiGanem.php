@@ -48,7 +48,6 @@ function cargarColeccionPalabras()
 
 //print_r($partida);
 //imprimirResultado($partida);
-
 $coleccionPalabras=cargarColeccionPalabras();
 $coleccionPartidas=cargarPartidas();
 do {
@@ -75,19 +74,42 @@ do {
 
             
             $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
-            array_push($coleccionPartidas,$partida);
+            array_push($coleccionPartidas,$partida);//preguntar
             break;
-        case 2: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 2
+        case 2:
+            echo "Ingrese nombre de usuario:\n";
+            $nombreUsusario=trim(fgets(STDIN));
+            $palabraWordix=$coleccionPalabras[array_rand($coleccionPalabras)];
 
+            $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
+            array_push($coleccionPartidas,$partida);//preguntar
             break;
         case 3: 
-            //completar qué secuencia de pasos ejecutar si el usuario elige la opción 3
+            echo "Ingrese numero de partida:\n";
+            $numPartida=trim(fgets(STDIN));
+            while($numPartida>count($coleccionPartidas)){
+                echo "Ingrese un numero del 0 al ".count($coleccionPartidas).".\n";
+                $numPartida=trim(fgets(STDIN));
+            }
+            echo "Partida WORDIX <numero>: palabra <palabra>\n";
+            echo "Jugador: <nombre>\n";
+            echo "Puntaje: <puntaje> puntos\n";
+            echo "Intento: No adivinó la palabra | Adivinó la palabra en <X> intentos\n";
+            echo "*****************************************************************\n";
+            break;
+        case 4:
 
             break;
-        
-            //...
+        case 5:
+
+            break;
+        case 6:
+
+            break;
+        case 7:
+            break;
     }
+
 } while ($opcion != 8);
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -96,7 +118,16 @@ do {
  * 
  */
 
-function verificarPalabraQueNoRepita($palabraWordix){
+function verificarPalabraQueNoRepita($palabraWordix,$numeroPalabra,$nombreUsusario){
+
+    $palabraUsadaPorJugador=["jugador" => $nombreUsusario,"numeroPalabra"=>$numeroPalabra];
+    $coleccionPalabrasUsadas[0]=["jugador"=>"ejemplo","numeroPalabra"=>"ejemplo"];
+    array_push($coleccionPalabrasUsadas,$palabraUsadaPorJugador);
+    for($i=0;count($coleccionPalabrasUsadas)>$i;$i++){
+        if($nombreUsusario==$coleccionPalabrasUsadas[i]){
+            if($coleccionPalabrasUsadas[$nombreUsusario]);
+        }
+    }
 }
 
 
