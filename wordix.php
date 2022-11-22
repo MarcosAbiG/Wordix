@@ -36,7 +36,7 @@ const ESTADO_LETRA_PERTENECE = "pertenece";
 function solicitarNumeroEntre($min, $max)
 {
     //int $numero
-    echo "ingrese un numero del 0 al 19 para elegir palabra:\n";
+    echo "ingrese un numero del ".$min." al ".$max." para elegir palabra:\n";
     $numero = trim(fgets(STDIN));
 	
 	if (is_numeric($numero)) { //determina si un string es un número. puede ser float como entero.
@@ -381,7 +381,6 @@ function jugarWordix($palabraWordix, $nombreUsuario)
         $puntaje = obtenerPuntajeWordix();
         echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!";
     } else {
-        $nroIntento = 0; //reset intento
         $puntaje = 0;
         echo "Seguí Jugando Wordix, la próxima será! ";
     }
@@ -395,4 +394,11 @@ function jugarWordix($palabraWordix, $nombreUsuario)
 
     return $partida;
 }
+
+
+
+//-------------------------------------------------------------------------------------
+
+
+
 ?>
