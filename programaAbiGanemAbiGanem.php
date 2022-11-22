@@ -44,23 +44,25 @@ function cargarPartidas(){
     Return $coleccionPartidas;
 }
 
-function verificarPalabraQueNoRepita($palabraWordix,$numeroPalabra,$nombreUsusario,$coleccionPalabrasUsadas){
-
-    
-    for($i=0;count($coleccionPalabrasUsadas)>$i;$i++){
-        while($nombreUsusario==$coleccionPalabrasUsadas[$i]["jugador"]&&
-        $numeroPalabra==$coleccionPalabrasUsadas[$i]["numeroPalabra"]){
-            
-            echo"Ya uso el numero de palabra *".$numeroPalabra."*, ingrese uno diferente:\n";
+/**
+ * 
+ * 
+ * 
+ */
+function verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroPalabra,$coleccionPalabras){
+    $i=0;
+    $palabra=$coleccionPalabras[$numeroPalabra];
+    while($i<count($coleccionPartidas)){
+        
+        if($nombreUsusario==$coleccionPartidas[$i]["jugador"]&&$palabra==$coleccionPartidas[$i]["palabraWordix"]){
+            echo "La palabra ya fue utilizada, ingrese otro numero que no sea: ".$numeroPalabra."\n";
             $numeroPalabra=trim(fgets(STDIN));
+
+            $i=0;
         }
+        $palabra=$coleccionPalabras[$numeroPalabra];
+        $i++;
     }
-    $palabraUsadaPorJugador=[
-        "jugador" => $nombreUsusario,
-        "numeroPalabra"=>$numeroPalabra];
-    array_push($coleccionPalabrasUsadas,$palabraUsadaPorJugador);
-    
-    
     return $numeroPalabra;
 }
 /*
@@ -197,8 +199,8 @@ do {
             echo "Ingrese nombre de usuario:\n";
             $nombreUsusario=trim(fgets(STDIN));
             $numeroPalabra=solicitarNumeroEntre(1,20);
-            $palabraWordix=$coleccionPalabras[$numeroPalabra];
-            $numeroPalabra=verificarPalabraQueNoRepita($palabraWordix,$numeroPalabra,$nombreUsusario,$coleccionPalabrasUsadas);
+
+            $numeroPalabra=verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroPalabra,$coleccionPalabras);
             $palabraWordix=$coleccionPalabras[$numeroPalabra];
             $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
             array_push($coleccionPartidas,$partida);
