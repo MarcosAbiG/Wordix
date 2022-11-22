@@ -1,19 +1,22 @@
 <?php
 
-/**1)Esta función inicializa el arreglo $coleccionPalabras
-*@Return $coleccionPalabras
-*/
-Function cargarColeccionPalabras(){
-$coleccionPalabras =[ "MUJER" , "QUESO" , "FUEGO" , "CASAS" , "RASGO" , "GATOS" , 
-"HUEBO" , "TINTO" , "NAVES" , "VERDE" , "MELON" , "YUYOS" , "PIANO" ,  "PISOS" , "FRESA"];
-Return $coleccionPalabras;
-}
 
+function cargarColeccionPalabras()
+{
+    $coleccionPalabras = [
+        "MUJER", "QUESO", "FUEGO", "CASAS", "RASGO",
+        "GATOS", "GOTAS", "HUEVO", "TINTO", "NAVES",
+        "VERDE", "MELON", "YUYOS", "PIANO", "PISOS",
+        "FRESA", "COMER", "LOCOS", "FOCOS", "HUESO" 
+    ];
+
+    return ($coleccionPalabras);
+}
 /**2)Esta función inicializa el arreglo $coleccionPartidas
 * @Return $coleccionPartidas
 */
-Function cargarPartidas(){
-/*$coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
+function cargarPartidas(){
+$coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
 $coleccionPartidas [1] = [ "palabraWordix" => "MUJER" , "jugador" => "sofi", "intentos"=>2 , "puntaje"=> 1];
 $coleccionPartidas [2] = [ "palabraWordix" => "CASAS" , "jugador" => "majo", "intentos"=>4 , "puntaje"=> 2];
 $coleccionPartidas [3] = [ "palabraWordix" => "PISOS" , "jugador" => "kata", "intentos"=>4 , "puntaje"=> 3];
@@ -23,8 +26,8 @@ $coleccionPartidas [6] = [ "palabraWordix" => "VERDE" , "jugador" => "kata", "in
 $coleccionPartidas [7] = [ "palabraWordix" => "MUJER" , "jugador" => "fern", "intentos"=>1 , "puntaje"=> 2];
 $coleccionPartidas [8] = [ "palabraWordix" => "NAVES" , "jugador" => "elsa", "intentos"=>0 , "puntaje"=> 0];
 $coleccionPartidas [9] = [ "palabraWordix" => "YUYOS" , "jugador" => "mati", "intentos"=>12 , "puntaje"=> 3];
-Return $coleccionPartidas;*/
-$coleccion = [];
+Return $coleccionPartidas;
+/*$coleccion = [];
 $pa1 = ["palabraWordix" => "SUECO", "jugador" => "kleiton", "intentos" => 0, "puntaje" => 0];
 $pa2 = ["palabraWordix" => "YUYOS", "jugador" => "briba", "intentos" => 0, "puntaje" => 0];
 $pa3 = ["palabraWordix" => "HUEVO", "jugador" => "zrack", "intentos" => 3, "puntaje" => 9];
@@ -40,7 +43,7 @@ $pa12 = ["palabraWordix" => "TINTO", "jugador" => "briba", "intentos" => 0, "pun
 
 array_push($coleccion, $pa1, $pa2, $pa3, $pa4, $pa5, $pa6, $pa7, $pa8, $pa9, $pa10, $pa11, $pa12);
 return $coleccion;
-
+*/
 }
 /**3) Esta función muestra en pantalla las opciones del menú 
 *@return $num int
@@ -189,7 +192,7 @@ function datosPartidaJugador($coleccionPartidas){
     print_r($coleccionPartidas);
 }
 
-
+/*
 //Prgrama main 
 //a)
 $coleccionPalabras=cargarColeccionPalabras();
@@ -225,5 +228,73 @@ $opcion=seleccionarOpcion();
 /*e) La intruccion switch corresponde a la estructura de control alternativa. Funciona tomando en cuenta una variable y en base 
 al valor de la misma toma diferentes opciones similar a un menu. 
 */
+
+//************************************************************************************************************************** */
+$coleccionPalabras=cargarColeccionPalabras();
+$coleccionPartidas=cargarPartidas();
+$opcion=seleccionarOpcion();
+
+do {
+    
+    switch ($opcion) {
+        case 1: 
+            echo "Ingrese nombre de usuario:\n";
+            $nombreUsusario=trim(fgets(STDIN));
+            $numeroPalabra=solicitarNumeroEntre(1,20);
+            $palabraWordix=$coleccionPalabras[$numeroPalabra];
+            verificarPalabraQueNoRepita($palabraWordix,$numeroPalabra,$nombreUsusario);
+            $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
+            array_push($coleccionPartidas,$partida);//preguntar
+            break;
+        case 2:
+            echo "Ingrese nombre de usuario:\n";
+            $nombreUsusario=trim(fgets(STDIN));
+            $palabraWordix=$coleccionPalabras[array_rand($coleccionPalabras)];
+            
+            $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
+            array_push($coleccionPartidas,$partida);//preguntar
+            break;
+        case 3: 
+            echo "Ingrese numero de partida:\n";
+            $numPartida=trim(fgets(STDIN));
+            while($numPartida>count($coleccionPartidas)){
+                echo "Ingrese un numero del 0 al ".count($coleccionPartidas).".\n";
+                $numPartida=trim(fgets(STDIN));
+            }
+            echo "Partida WORDIX <numero>: palabra <palabra>\n";
+            echo "Jugador: <nombre>\n";
+            echo "Puntaje: <puntaje> puntos\n";
+            echo "Intento: No adivinó la palabra | Adivinó la palabra en <X> intentos\n";
+            echo "*****************************************************************\n";
+            break;
+        case 4:
+
+            break;
+        case 5:
+
+            break;
+        case 6:
+
+            break;
+        case 7:
+            break;
+    }
+
+} while ($opcion != 8);
+
+
+function verificarPalabraQueNoRepita($palabraWordix,$numeroPalabra,$nombreUsusario){
+    $i=0;
+    $palabraUsadaPorJugador=["jugador" => $nombreUsusario,"numeroPalabra"=>$numeroPalabra];
+    $coleccionPalabrasUsadas=[];
+    array_push($coleccionPalabrasUsadas,$palabraUsadaPorJugador);
+    for($i=0;count($coleccionPalabrasUsadas)>$i;$i++){
+        if($nombreUsusario==$coleccionPalabrasUsadas[$i]&&$numeroPalabra!=$coleccionPalabrasUsadas[i]){
+            echo"Ya uso el numero de palabra ".$numeroPalabra.", ingrese uno diferente:\n";
+            
+        }
+    }
+}
+
 
 ?>
