@@ -12,6 +12,7 @@ include_once("wordix.php");
 /***** DEFINICION DE FUNCIONES ********/
 /**************************************/
 
+
 /**
  * Obtiene una colección de palabras
  * @return array
@@ -75,9 +76,12 @@ Function seleccionarOpcion (){
 }
 
 /**
- * 
- * 
- * 
+ * Esta funcion verifica que no se repitan las palabras del arreglo
+ * @param String $nombreUsusario
+ * @param array $coleccionPartidas
+ * @param int $numeroPalabra
+ * @param array $coleccionPalabras
+ * @return $numeorPalabra
  */
 function verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroPalabra,$coleccionPalabras){
     $i=0;
@@ -95,9 +99,21 @@ function verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroP
     }
     return $numeroPalabra;
 }
-/*
+/**
+ * Funcion para ordenar alfa 
+ * @param  $a
+ * @param  $b
+ */
+function cmp($a, $b) {
+    if ($a == $b) {
+        return 0;
+    }
+    return ($a < $b) ? -1 : 1;
+}
+/**
  * 6)Permite ingresar un numero de partida y si el numero es valido muestra el resumen de esa partida jugada
  * @param array $coleccionPartidas
+ * @param int $numeroPartida
  */
 function mostrarPartida ($coleccionPartidas, $numeroPartida) 
 {
@@ -218,7 +234,8 @@ function estructuraResumenJugador($coleccionPartidas,$nombreJugador){
  return $resumenJugador;
 }
 
-/**10)esta funcion solicita al usuario el nombre de un jugador y retorna el nombre en minúsculas
+/**
+ * 10)esta funcion solicita al usuario el nombre de un jugador y retorna el nombre en minúsculas
  * @return string 
  */
 function solicitarJugador(){
@@ -345,7 +362,8 @@ do {
 
             break;
         case 6:
-
+            uasort($coleccionPartidas,'cmp');
+            print_r($coleccionPartidas);
             break;
         case 7:
             echo "ingresar palabra de 5 letras: \n";
@@ -357,4 +375,6 @@ do {
 $opcion=seleccionarOpcion();
 
 } while ($opcion != 8);
+
+
 
