@@ -347,31 +347,44 @@ function esIntentoGanado($estructuraPalabraIntento)
  * @param int $nroIntento
  * 
  */
-function obtenerPuntajeWordix($nroIntentosTotal,$arregloPalabrasUsadas,$palabraWordix,$letraIntento,$estado) {
-    
+function obtenerPuntajeWordix($nroIntentos,$palabraWordix) {
+    $puntos=0;
+    $i=0;
+    for($i=0;$i<5;$i++){
+        if($palabraWordix[$i]=='A'||$palabraWordix[$i]=='E'||$palabraWordix[$i]=='I'||$palabraWordix[$i]=='O'||$palabraWordix[$i]=='U'){
+            $puntos=$puntos+1;
+        }elseif($palabraWordix[$i]=='B'||$palabraWordix[$i]=='C'||$palabraWordix[$i]=='D'||$palabraWordix[$i]=='F'||$palabraWordix[$i]=='G'||
+        $palabraWordix[$i]=='H'||$palabraWordix[$i]=='J'||$palabraWordix[$i]=='K'||$palabraWordix[$i]=='L'||$palabraWordix[$i]=='M'){
+            $puntos=$puntos+2;
 
-    switch ($nroIntentosTotal) {
+        }else{
+            $puntos=$puntos+3;
+        }
+
+    }
+
+    switch ($nroIntentos) {
         case 1: 
-            $puntos=6;
+            $puntos=$puntos+6;
             break;
         case 2: 
-            $puntos=5;
+            $puntos=$puntos+5;
             break;
         case 3: 
-            $puntos=4;
+            $puntos=$puntos+4;
             break;
         case 4: 
-            $puntos=3;   
+            $puntos=$puntos+3;   
             break;
         case 5: 
-            $puntos=2;    
+            $puntos=$puntos+2;    
             break;
         case 6: 
-            $puntos=1;    
+            $puntos=$puntos+1;    
             break;        
     }
 
-    return 0;
+    return $puntos;
 }
 
 /**
@@ -407,8 +420,7 @@ function jugarWordix($palabraWordix, $nombreUsuario)
 
     if ($ganoElIntento) {
         $nroIntento--;
-        $nroIntentosTotal=$nroIntento;
-        $puntaje = obtenerPuntajeWordix($nroIntentosTotal);
+        $puntaje = obtenerPuntajeWordix($nroIntento,$palabraWordix);
         echo "Adivinó la palabra Wordix en el intento " . $nroIntento . "!: " . $palabraIntento . " Obtuvo $puntaje puntos!";
     } else {
         $puntaje = 0;

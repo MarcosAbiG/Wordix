@@ -32,7 +32,7 @@ function cargarColeccionPalabras()
 * @Return $coleccionPartidas
 */
 function cargarPartidas(){
-    $coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
+    /*$coleccionPartidas [0] = [ "palabraWordix" => "QUESO" , "jugador" => "majo", "intentos"=>0 , "puntaje"=> 0];
     $coleccionPartidas [1] = [ "palabraWordix" => "MUJER" , "jugador" => "sofi", "intentos"=>2 , "puntaje"=> 1];
     $coleccionPartidas [2] = [ "palabraWordix" => "CASAS" , "jugador" => "majo", "intentos"=>4 , "puntaje"=> 2];
     $coleccionPartidas [3] = [ "palabraWordix" => "PISOS" , "jugador" => "kata", "intentos"=>4 , "puntaje"=> 3];
@@ -42,7 +42,23 @@ function cargarPartidas(){
     $coleccionPartidas [7] = [ "palabraWordix" => "MUJER" , "jugador" => "fern", "intentos"=>1 , "puntaje"=> 2];
     $coleccionPartidas [8] = [ "palabraWordix" => "NAVES" , "jugador" => "elsa", "intentos"=>0 , "puntaje"=> 0];
     $coleccionPartidas [9] = [ "palabraWordix" => "YUYOS" , "jugador" => "mati", "intentos"=>12 , "puntaje"=> 3];
-    Return $coleccionPartidas;
+    Return $coleccionPartidas;*/
+    $coleccion = [];
+    $pa1 = ["palabraWordix" => "SUECO", "jugador" => "kleiton", "intentos" => 0, "puntaje" => 0];
+    $pa2 = ["palabraWordix" => "YUYOS", "jugador" => "briba", "intentos" => 0, "puntaje" => 0];
+    $pa3 = ["palabraWordix" => "HUEVO", "jugador" => "zrack", "intentos" => 3, "puntaje" => 9];
+    $pa4 = ["palabraWordix" => "TINTO", "jugador" => "cabrito", "intentos" => 4, "puntaje" => 8];
+    $pa5 = ["palabraWordix" => "RASGO", "jugador" => "briba", "intentos" => 0, "puntaje" => 0];
+    $pa6 = ["palabraWordix" => "VERDE", "jugador" => "cabrito", "intentos" => 5, "puntaje" => 7];
+    $pa7 = ["palabraWordix" => "CASAS", "jugador" => "kleiton", "intentos" => 5, "puntaje" => 7];
+    $pa8 = ["palabraWordix" => "GOTAS", "jugador" => "kleiton", "intentos" => 0, "puntaje" => 0];
+    $pa9 = ["palabraWordix" => "ZORRO", "jugador" => "zrack", "intentos" => 4, "puntaje" => 8];
+    $pa10 = ["palabraWordix" => "GOTAS", "jugador" => "cabrito", "intentos" => 0, "puntaje" => 0];
+    $pa11 = ["palabraWordix" => "FUEGO", "jugador" => "cabrito", "intentos" => 2, "puntaje" => 10];
+    $pa12 = ["palabraWordix" => "TINTO", "jugador" => "briba", "intentos" => 0, "puntaje" => 0];
+
+    array_push($coleccion, $pa1, $pa2, $pa3, $pa4, $pa5, $pa6, $pa7, $pa8, $pa9, $pa10, $pa11, $pa12);
+    return $coleccion;
 }
 /**3) Esta función muestra en pantalla las opciones del menú 
 *@return $num int
@@ -64,7 +80,7 @@ Function seleccionarOpcion (){
     echo"*****************************************************************\n";    
     echo "Elija el número de la opción: ";
     $num = trim(fgets(STDIN));
-    While($bandera==true){
+    While($bandera){
         if ($num ==  1 || $num ==  2 || $num ==  3 || $num ==  4 || $num ==  5 || $num ==  6 || $num ==  7 || $num ==  8){
             $bandera = false;
         }else{
@@ -101,14 +117,22 @@ function verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroP
 }
 /**
  * Funcion para ordenar alfa 
- * @param  $a
- * @param  $b
+ * @param array $a
+ * @param array $b
+ * @return int
  */
 function cmp($a, $b) {
-    if ($a == $b) {
+    if ($a["jugador"] == $b["jugador"]) {
+        if($a["palabraWordix"]==$b["palabraWordix"]){
+            return 0;
+        }elseif($a["palabraWordix"]<$b["palabraWordix"]){
+            return -1;
+        }else{
+            return 1;
+        }
         return 0;
     }
-    return ($a < $b) ? -1 : 1;
+    return ($a["jugador"] < $b["jugador"]) ? -1 : 1;
 }
 /**
  * 6)Permite ingresar un numero de partida y si el numero es valido muestra el resumen de esa partida jugada
@@ -139,19 +163,23 @@ function agregarPalabra ($coleccionPalabras, $palabraAgregada){
     $i = 0;
     $rango = count($coleccionPalabras);
     $esAgregable = true;
-    while($coleccionPalabras[$i] != $palabraAgregada && $i < $rango){
-        $i = $i + 1;
-    }
-    if($coleccionPalabras[$i] == $palabraAgregada){
+    while($i < $rango && $coleccionPalabras[$i] != $palabraAgregada ){
+        
+        if($palabraAgregada==$coleccionPalabras[$i]){
         $esAgregable = false;
+        
     } 
+    $i = $i + 1;
+    }
+    
     if($esAgregable == true){
     $numeroPalabra = count($coleccionPalabras); //numero de la nueva palabra
     $coleccionPalabras [$numeroPalabra] = $palabraAgregada;
     echo "\nLa palabra " .$coleccionPalabras[$numeroPalabra]. " fue agregada\n";
     } else {
-        echo"La palabra ya existe\n";
+        echo"\nLa palabra ya existe\n";
     }
+    
     return $coleccionPalabras; 
 }
 
@@ -196,6 +224,20 @@ function estructuraResumenJugador($coleccionPartidas,$nombreJugador){
     $intento4=0;
     $intento5=0;
     $intento6=0;
+    $i=0;
+    $bandera=true;
+    while($i<count($coleccionPartidas)&&$bandera==true){
+        if($coleccionPartidas[$i]["jugador"]==$nombreJugador){
+            $bandera=false;
+        }
+        if($i==count($coleccionPartidas)-1&&$bandera==true){
+            echo "Ingrese un nombre valido\n";
+            $nombreJugador=trim(fgets(STDIN));
+            $i=0;
+        }
+        $i++;
+    }
+
     for($i=0;$i<count($coleccionPartidas);$i++){
         if($coleccionPartidas[$i]["jugador"]==$nombreJugador){
             $partida=$partida+1;
@@ -295,16 +337,14 @@ do {
             break;
         case 2:
             $nombreUsusario=solicitarJugador();
-            $numeroPalabra=rand(0,19);
+            $numeroPalabra=rand(0,count($coleccionPalabras));
             $numeroPalabra=verificarPalabraQueNoRepita($nombreUsusario,$coleccionPartidas,$numeroPalabra,$coleccionPalabras);
             $palabraWordix=$coleccionPalabras[$numeroPalabra];
             $partida = jugarWordix($palabraWordix, strtolower($nombreUsusario));
             array_push($coleccionPartidas,$partida);
             break;
         case 3: 
-
-            echo "ingrese el numero de la partida :";
-            $numeroPartida=trim(fgets(STDIN));
+            $numeroPartida=solicitarNumeroEntre(0,count($coleccionPartidas)-1);
             mostrarPartida ($coleccionPartidas, $numeroPartida);
             
             break;
