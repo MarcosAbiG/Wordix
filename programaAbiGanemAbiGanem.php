@@ -351,9 +351,7 @@ do {
         case 4:
             $bandera=true;
             $i=0;
-            echo "ingrese el numbre de un jugador:";
-            $nombreJugador=trim(fgets(STDIN));
-            
+            $nombreUsusario=solicitarJugador();
             while($i<count($coleccionPartidas)&&$bandera==true){
                 if($nombreJugador==$coleccionPartidas[$i]["jugador"]){
                     $bandera=false;
@@ -377,9 +375,7 @@ do {
 
             break;
         case 5:
-            echo "ingrese el nombre de un jugador:";
-            $nombreJugador=trim(fgets(STDIN));
-
+            $nombreUsusario=solicitarJugador();
             
             $resumenJugadorX=estructuraResumenJugador($coleccionPartidas,$nombreJugador);
             //$b=$resumenJugadorX["partidas"];
