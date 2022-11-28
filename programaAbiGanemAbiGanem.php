@@ -313,8 +313,7 @@ function solicitarJugador(){
 //Inicialización de variables:
 $coleccionPalabras=cargarColeccionPalabras();
 $coleccionPartidas=cargarPartidas();
-$opcion=seleccionarOpcion();
-$coleccionPalabrasUsadas=[];
+
 
 //$resumenJugadorX=["jugador"=>,"partidas"=>,"puntaje"=>,"victorias"=>, "intento1", "intento2","intento3", "intento4", "intento5", "intento6"];
 
@@ -325,7 +324,7 @@ $coleccionPalabrasUsadas=[];
 
 
 do {
-    
+    $opcion=seleccionarOpcion();
     switch ($opcion) {
         case 1: 
             $nombreUsusario=solicitarJugador();
@@ -402,13 +401,11 @@ do {
             print_r($coleccionPartidas);
             break;
         case 7:
-            echo "ingresar palabra de 5 letras: \n";
             $palabraAgregada=leerPalabra5Letras();
             $coleccionPalabras=agregarPalabra($coleccionPalabras,$palabraAgregada);
             break;
     }
     
-$opcion=seleccionarOpcion();
 
 } while ($opcion != 8);
 
