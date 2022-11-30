@@ -140,7 +140,8 @@ function escribirMensajeBienvenida($usuario)
 
 /**
  * Este arreglo valida si la cadena de caracteres no posee numeros
- * @param String $cadena
+ * @param string $cadena
+ * @return boolean
  */
 function esPalabra($cadena)
 {
@@ -345,7 +346,8 @@ function esIntentoGanado($estructuraPalabraIntento)
 /**
  * Funcion que calcula los puntos de jugador en una partida
  * @param int $nroIntento
- * 
+ * @param string $palabraWordix
+ * @return array
  */
 function obtenerPuntajeWordix($nroIntentos,$palabraWordix) {
     $puntos=0;
@@ -440,7 +442,7 @@ function jugarWordix($palabraWordix, $nombreUsuario)
 
 
 
-//-------------------------------------------------------------------------------------
+
 
 
 
