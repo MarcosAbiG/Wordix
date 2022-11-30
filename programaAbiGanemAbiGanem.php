@@ -45,7 +45,6 @@ function cargarPartidas(){
     $pa10 = ["palabraWordix" => "GOTAS", "jugador" => "cabrito", "intentos" => 0, "puntaje" => 0];
     $pa11 = ["palabraWordix" => "FUEGO", "jugador" => "cabrito", "intentos" => 2, "puntaje" => 10];
     $pa12 = ["palabraWordix" => "TINTO", "jugador" => "briba", "intentos" => 0, "puntaje" => 0];
-
     array_push($coleccion, $pa1, $pa2, $pa3, $pa4, $pa5, $pa6, $pa7, $pa8, $pa9, $pa10, $pa11, $pa12);
     return $coleccion;
 }
@@ -56,7 +55,6 @@ Function seleccionarOpcion (){
     // booleano $opcion, int $num 
     $num = 0;
     $opcion = true;
-    
     echo"\n*****************************************************************\n";
     echo  "1) Jugar al Wordix con una palabra elegida \n";
     echo  "2) Jugar al Wordix con una palabra aleatoria \n";
@@ -122,13 +120,11 @@ function cmp($a, $b) {
         }else{
             $aux=1;
         }
-        
     }elseif($a["jugador"] < $b["jugador"]){
         $aux=-1;
     }else{
         $aux=1;
     }
-    
     return $aux;
 }
 /**
@@ -138,7 +134,6 @@ function cmp($a, $b) {
  */
 function mostrarPartida ($coleccionPartidas, $nrnoPartida) 
 {
-
     echo "\n***************************************************************** \n";
     echo"Partida WORDIX " .$nrnoPartida. ": palabra ".$coleccionPartidas[$nrnoPartida]["palabraWordix"]. "\n";
     echo"Jugador: ".$coleccionPartidas[$nrnoPartida]["jugador"];
@@ -169,7 +164,6 @@ function agregarPalabra ($coleccionPalabras, $palabraAgregada){
     } 
     $i = $i + 1;
     }
-    
     if($esAgregable){
     $numeroPalabra = count($coleccionPalabras); //numero de la nueva palabra
     $coleccionPalabras [$numeroPalabra] = $palabraAgregada;
@@ -177,7 +171,6 @@ function agregarPalabra ($coleccionPalabras, $palabraAgregada){
     } else {
         echo"\nLa palabra ya existe\n";
     }
-    
     return $coleccionPalabras; 
 }
 
@@ -199,10 +192,8 @@ function indicePrimerPartida($coleccionPartidas,$nombreJugador){
             $indice=$i;
             $encontrado=false;
         }
-        
         $i=$i+1;
     }
-
     return $indice;
 }
 /**
@@ -240,7 +231,6 @@ function estructuraResumenJugador($coleccionPartidas,$nombreJugador){
         }
         $i++;
     }
-
     for($i=0;$i<$longitud;$i++){
         if($coleccionPartidas[$i]["jugador"]==$nombreJugador){
             $partida=$partida+1;
@@ -271,8 +261,6 @@ function estructuraResumenJugador($coleccionPartidas,$nombreJugador){
             }
         }
     }
-
-
     $resumenJugador=["jugador"=>$nombreJugador,"partidas"=>$partida,"puntaje"=>$puntaje, 
 "victorias"=>$victorias, "intento1"=>$intento1, "intento2"=>$intento2,
  "intento3"=>$intento3, "intento4"=>$intento4, "intento5"=>$intento5, "intento6"=>$intento6];
@@ -294,8 +282,7 @@ function solicitarJugador(){
             $nombreUsuario=trim(fgets(STDIN));
         }
         $esNombre = ctype_alpha($nombreUsuario[0]);
-       }
-    
+       } 
     return strtolower($nombreUsuario);
 }
 /**
@@ -315,38 +302,24 @@ function palabraRepetida($nombreJugador,$palabra,$coleccionPartidas){
         }
         $i=$i+1;
     }
-
     return $laEnconrto;
 } 
-
-
-/* ... COMPLETAR ... */
-
-
-
 
 /*********** PROGRAMA PRINCIPAL *******/
 /**************************************/
 
 //Declaración de variables:
-/* Int $opcion, array $coleccionPalabras, array $coleccionPartidas
-
-
+/* Int $opcion, array $coleccionPalabras, array $coleccionPartidas, String $nombreUsuario, array $resumeJugadorX
+int $numeroPalabra, String $palabraWordix, boolean $palabraUsada, array $partida, boolean $jugadorExiste, int $valor
+String $palabraAgregada, int $porcentaje
 */ 
 
 //Inicialización de variables:
 $coleccionPalabras=cargarColeccionPalabras();
 $coleccionPartidas=cargarPartidas();
-
-
 //$resumenJugadorX=["jugador"=>,"partidas"=>,"puntaje"=>,"victorias"=>, "intento1", "intento2","intento3", "intento4", "intento5", "intento6"];
 
-
-
 //Proceso:
-
-
-
 
 do {
     $opcion=seleccionarOpcion();
@@ -366,7 +339,6 @@ do {
             break;
         case 2:
             $nombreUsuario=solicitarJugador();
-
             do{
             $numeroPalabra= rand(0,count($coleccionPalabras));
             //$numeroPalabra=verificarPalabraQueNoRepita($nombreUsuario,$coleccionPartidas,$numeroPalabra,$coleccionPalabras);
@@ -381,7 +353,6 @@ do {
         case 3: 
             $numeroPartida=solicitarNumeroEntre(0,count($coleccionPartidas)-1);
             mostrarPartida ($coleccionPartidas, $numeroPartida);
-            
             break;
         case 4:
             $jugadorExiste=true;
@@ -407,16 +378,13 @@ do {
                     mostrarPartida($coleccionPartidas,$valor); 
                 }
         }
-
             break;
         case 5:
             $nombreUsuario=solicitarJugador();
-            
             $resumenJugadorX=estructuraResumenJugador($coleccionPartidas,$nombreUsuario);
             //$b=$resumenJugadorX["partidas"];
             //$porsentaje=(int)(($a*100)/$b);
-            $porsentaje=(int)(($resumenJugadorX["victorias"]*100)/$resumenJugadorX["partidas"]);
-            
+            $porsentaje=(int)(($resumenJugadorX["victorias"]*100)/$resumenJugadorX["partidas"]);            
             echo"\n*****************************************************************\n";
             echo "Jugador: " .$nombreUsusario."\n";
             echo "Partidas: " .$resumenJugadorX["partidas"]."\n";
@@ -430,7 +398,6 @@ do {
             echo"    Intento 5: ".$resumenJugadorX["intento5"]."\n";
             echo"    Intento 6: ".$resumenJugadorX["intento6"]."\n";
             echo"*****************************************************************\n";
-
             break;
         case 6:
             uasort($coleccionPartidas,'cmp');
@@ -442,7 +409,6 @@ do {
             break;
     }
     
-
 } while ($opcion != 8);
 
 

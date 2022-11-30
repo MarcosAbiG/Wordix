@@ -230,6 +230,7 @@ function escribirTeclado($teclado)
  */
 function imprimirIntentosWordix($estructuraIntentosWordix)
 {
+    // int $i, $j 
     $cantIntentosRealizados = count($estructuraIntentosWordix);
     //$cantIntentosFaltantes = CANT_INTENTOS - $cantIntentosRealizados;
 
@@ -263,6 +264,7 @@ function imprimirIntentosWordix($estructuraIntentosWordix)
  */
 function analizarPalabraIntento($palabraWordix, $estruturaIntentosWordix, $palabraIntento)
 {
+    // int $i, $cantCaracteres, String $estado, boolean $posicion
     $cantCaracteres = strlen($palabraIntento);
     $estructuraPalabraIntento = []; /*almacena cada letra de la palabra intento con su estado */
     for ($i = 0; $i < $cantCaracteres; $i++) {
@@ -324,6 +326,7 @@ function actualizarTeclado($teclado, $estructuraPalabraIntento)
  */
 function esIntentoGanado($estructuraPalabraIntento)
 {
+    // int $i, boolean $ganado
     $cantLetras = count($estructuraPalabraIntento);
     $i = 0;
 
@@ -350,6 +353,7 @@ function esIntentoGanado($estructuraPalabraIntento)
  * @return array
  */
 function obtenerPuntajeWordix($nroIntentos,$palabraWordix) {
+    // int $i, int $puntos
     $puntos=0;
     $i=0;
     for($i=0;$i<5;$i++){
@@ -397,7 +401,7 @@ function obtenerPuntajeWordix($nroIntentos,$palabraWordix) {
  */
 function jugarWordix($palabraWordix, $nombreUsuario)
 {
-    /*Inicialización*/
+    // array $arregloDeIntentosWordix, int $nroIntentos, int $indiceIntentos, boolean$ganoElIntento
     $arregloDeIntentosWordix = [];
     $teclado = iniciarTeclado();
     escribirMensajeBienvenida($nombreUsuario);
